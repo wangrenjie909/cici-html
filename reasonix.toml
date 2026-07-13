@@ -1,0 +1,2 @@
+[permissions]
+allow = ["Edit", "Bash(Move-Item -Path \"C:\\ai\\code\\cici-html\\_cgi-bin_mmwebwx-bin_webwxgetmsgimg__&MsgID=6006554583316572497&skey=@crypt_e085b6f9_c36f4d3a26ce3cb244eeec5441bb0aef&mmweb_appid=wx_webfilehelper.jfif\" -Destination \"C:\\ai\\code\\cici-html\\forest-bg.jpg\")"]
