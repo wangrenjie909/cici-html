@@ -2,20 +2,69 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>布丁的小世界</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             min-height: 100vh;
             background: url('img2.jpg') center/cover no-repeat fixed;
-            font-family: 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+            font-family: 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'KaiTi', 'STKaiti', cursive, sans-serif;
             overflow-x: hidden;
             position: relative;
-            color: #c8d6c0;
+            color: rgba(210, 230, 215, 0.92);
         }
 
-        /* ===== 页面切换 ===== */
+        body.bg-page1 {
+            animation: bgBreathe 18s ease-in-out infinite;
+        }
+        body.bg-other {
+            animation: none;
+        }
+        @keyframes bgBreathe {
+            0%, 100% { background-position-y: 0; }
+            50% { background-position-y: -12px; }
+        }
+
+        /* ===== 左侧栏 ===== */
+        .sidebar {
+            position: fixed; top: 0; left: 0;
+            width: 110px; height: 100vh;
+            background: #f06292; z-index: 50;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 35px;
+        }
+        .sidebar .white-strip {
+            position: absolute; left: 0; top: 0; bottom: 0;
+            width: 30px; background: #fff;
+        }
+        .sidebar .line {
+            position: absolute; left: 15px;
+            top: 12%; bottom: 12%;
+            width: 2px; background: #1a1a1a;
+        }
+        .sidebar .s-item {
+            position: relative;
+            padding: 8px 14px; background: #fff;
+            border: 2px solid #1a1a1a; border-radius: 25px;
+            color: #1a1a1a; font-size: 0.82em;
+            font-family: 'Ma Shan Zheng', 'KaiTi', cursive;
+            white-space: nowrap; text-align: center;
+            cursor: pointer; transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); z-index: 1;
+        }
+        .sidebar .s-item:hover {
+            background: #f5f5f5; transform: scale(1.04);
+        }
+        .sep-white {
+            position: fixed; top: 0; left: 110px;
+            width: 15px; height: 100vh;
+            background: #fff; z-index: 49;
+        }
+
         .page {
             position: absolute;
             top: 0; left: 0;
@@ -24,363 +73,544 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 30px 20px;
-            transition: opacity 1s ease, transform 1s ease;
+            padding: 50px 24px;
+            transition: opacity 1.2s ease, transform 1.2s ease;
             z-index: 10;
         }
-
         .page.hidden {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(35px) scale(0.98);
             pointer-events: none;
             z-index: 8;
         }
-
-        /* ===== 主页标题（叠加在森林场景上） ===== */
-        .main-title {
-            font-size: 2.8em;
-            color: rgba(200, 230, 210, 0.9);
-            text-shadow:
-                0 0 30px rgba(100, 180, 140, 0.3),
-                0 0 60px rgba(80, 160, 120, 0.15),
-                0 2px 4px rgba(0, 0, 0, 0.4);
-            text-align: center;
-            margin-bottom: 8px;
-            letter-spacing: 6px;
-            font-weight: 600;
-            animation: titleFloat 4s ease-in-out infinite;
-            position: relative;
-            z-index: 15;
-            padding-top: 5vh;
+        .page.hidden * {
+            animation-play-state: paused !important;
         }
 
-        @keyframes titleFloat {
-            0%, 100% { transform: translateY(0); text-shadow: 0 0 30px rgba(100, 180, 140, 0.3), 0 2px 4px rgba(0,0,0,0.4); }
-            50% { transform: translateY(-6px); text-shadow: 0 0 40px rgba(120, 200, 160, 0.4), 0 0 80px rgba(80, 160, 120, 0.2), 0 2px 4px rgba(0,0,0,0.4); }
-        }
-
-        /* ===== 主页副标题 ===== */
-        .main-subtitle {
-            font-size: 1em;
-            color: rgba(180, 210, 190, 0.6);
-            text-shadow: 0 0 20px rgba(80, 160, 120, 0.2);
-            text-align: center;
-            letter-spacing: 8px;
-            margin-bottom: 20px;
-            position: relative;
-            z-index: 15;
-            animation: titleFloat 5s ease-in-out infinite 0.5s;
-        }
-
-        /* ===== 入口按钮 ===== */
-        .enter-btn {
-            display: inline-block;
-            padding: 14px 48px;
-            background: rgba(100, 160, 130, 0.15);
-            border: 1px solid rgba(140, 200, 170, 0.25);
-            border-radius: 30px;
-            color: rgba(200, 230, 210, 0.8);
-            font-size: 1.05em;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.4s;
-            letter-spacing: 4px;
-            position: relative;
-            z-index: 15;
-            backdrop-filter: blur(4px);
-            margin-top: 20px;
-        }
-
-        .enter-btn:hover {
-            background: rgba(100, 160, 130, 0.25);
-            border-color: rgba(140, 200, 170, 0.4);
-            box-shadow: 0 0 30px rgba(100, 180, 140, 0.15);
-            transform: scale(1.03);
-        }
-
-        /* ===== 内容卡片 ===== */
-        .content-box {
-            background: rgba(15, 30, 22, 0.6);
-            border-radius: 12px;
-            padding: 28px 32px;
-            max-width: 520px;
-            width: 100%;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(140, 200, 170, 0.1);
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(200, 230, 210, 0.04);
-            margin: 10px 0;
-            position: relative;
-            z-index: 12;
-        }
-
-        .diary-title {
-            font-size: 1.4em;
-            color: rgba(180, 220, 195, 0.9);
-            margin-bottom: 16px;
-            letter-spacing: 3px;
-            font-weight: 500;
-            text-shadow: 0 0 12px rgba(100, 180, 140, 0.15);
-        }
-
-        .diary-text {
-            font-size: 1.05em;
-            color: rgba(180, 205, 190, 0.85);
-            line-height: 2;
-        }
-
-        .diary-text .highlight {
-            color: rgba(160, 210, 180, 1);
-            font-weight: 500;
-            text-shadow: 0 0 8px rgba(120, 200, 160, 0.2);
-        }
-
-        /* ===== 页面指示器 ===== */
-        .page-marker {
-            font-size: 0.8em;
-            color: rgba(140, 200, 170, 0.35);
-            letter-spacing: 4px;
-            margin-top: 16px;
-            position: relative;
-            z-index: 12;
-        }
-
-        /* ===== 返回按钮 ===== */
-        .back-btn {
+        .scene-creature {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            background: rgba(15, 30, 22, 0.5);
-            border: 1px solid rgba(140, 200, 170, 0.15);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .scene-creature.hidden-creature { display: none; }
+        .scene-creature.butterfly {
+            width: 14px; height: 10px;
+            border-radius: 50% 0 50% 0;
+            animation: butterflyFly 12s ease-in-out infinite;
+        }
+        .scene-creature.bird {
+            width: 20px; height: 12px;
+            animation: birdFly 14s ease-in-out infinite;
+        }
+        .scene-creature.mote {
+            width: 6px; height: 6px;
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(4px);
+            box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+            animation: moteFloat 10s ease-in-out infinite;
+        }
+        .scene-creature.wisp {
+            width: 24px; height: 14px;
+            border-radius: 50%;
+            filter: blur(8px);
+            animation: wispRise 18s ease-in-out infinite;
+        }
+        .scene-creature.falling {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.85);
+            box-shadow: 0 0 10px rgba(255,255,255,0.4);
+            animation: fallDown 6s ease-in infinite;
         }
 
-        .back-btn:hover {
-            background: rgba(80, 160, 120, 0.2);
-            border-color: rgba(140, 200, 170, 0.3);
-            transform: scale(1.08);
+        @keyframes butterflyFly {
+            0%   { opacity: 0.8; transform: translate(0,0) rotate(0deg) scale(0.8); }
+            25%  { opacity: 1; transform: translate(60px,-40px) rotate(8deg) scale(1.1); }
+            50%  { opacity: 0.9; transform: translate(120px,-20px) rotate(-5deg) scale(0.9); }
+            75%  { opacity: 1; transform: translate(180px,-50px) rotate(6deg) scale(1); }
+            100% { opacity: 0.8; transform: translate(250px,-30px) rotate(0deg) scale(0.8); }
+        }
+        @keyframes birdFly {
+            0%   { opacity: 0.9; transform: translate(0,0) scale(0.7); }
+            20%  { opacity: 1; transform: translate(80px,-30px) scale(1); }
+            45%  { opacity: 0.95; transform: translate(180px,-15px) scale(1.1); }
+            70%  { opacity: 1; transform: translate(280px,-40px) scale(1); }
+            100% { opacity: 0.9; transform: translate(380px,-20px) scale(0.8); }
+        }
+        @keyframes moteFloat {
+            0%   { opacity: 0.5; transform: translate(0,0) scale(0.6); }
+            20%  { opacity: 1; transform: translate(30px,-25px) scale(1.1); }
+            50%  { opacity: 0.7; transform: translate(-15px,-55px) scale(0.8); }
+            75%  { opacity: 1; transform: translate(20px,-80px) scale(1.2); }
+            100% { opacity: 0.5; transform: translate(-10px,-110px) scale(0.6); }
+        }
+        @keyframes wispRise {
+            0%   { opacity: 0.3; transform: translateY(0) scale(0.5); }
+            20%  { opacity: 0.6; transform: translate(-20px,-30px) scale(0.9); }
+            45%  { opacity: 0.4; transform: translate(15px,-65px) scale(1.2); }
+            70%  { opacity: 0.3; transform: translate(-10px,-100px) scale(1.6); }
+            100% { opacity: 0; transform: translateY(-140px) scale(2); }
+        }
+        @keyframes fallDown {
+            0%   { opacity: 0; transform: translateY(-20px) scale(0.5); }
+            15%  { opacity: 1; transform: translateY(20vh) scale(1); }
+            40%  { opacity: 0.9; transform: translateY(50vh) scale(0.9); }
+            70%  { opacity: 0.7; transform: translateY(80vh) scale(1.1); }
+            100% { opacity: 0; transform: translateY(110vh) scale(0.6); }
         }
 
-        /* ===== 结尾回家按钮 ===== */
-        .end-home {
-            display: inline-block;
-            margin-top: 18px;
-            padding: 12px 36px;
-            background: rgba(100, 160, 130, 0.12);
-            border: 1px solid rgba(140, 200, 170, 0.2);
-            border-radius: 25px;
-            color: rgba(180, 220, 195, 0.8);
-            font-size: 0.95em;
-            font-family: inherit;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 3px;
+        .burst-dot {
+            position: fixed; width: 8px; height: 8px;
+            background: rgba(255,255,255,1); border-radius: 50%;
+            pointer-events: none; z-index: 999;
+            box-shadow: 0 0 16px rgba(255,255,255,0.8), 0 0 32px rgba(255,255,255,0.3);
+            animation: burstFly 5s ease-out forwards;
+        }
+        @keyframes burstFly {
+            0%   { opacity: 1; transform: translate(0,0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.1); }
+        }
+
+        .trail-dot {
+            position: fixed; width: 16px; height: 16px;
+            background: rgba(255,255,255,1);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            pointer-events: none; z-index: 999;
+            filter: drop-shadow(0 0 6px rgba(255,255,255,0.7));
+            animation: trailShoot 3s ease-out forwards;
+        }
+        @keyframes trailShoot {
+            0%   { opacity: 1; transform: translate(0,0) scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.2) rotate(180deg); }
+        }
+
+        /* ===== 玻璃弹窗 ===== */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999; display: none;
+            align-items: center; justify-content: center;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-box {
+            background: rgba(255,255,255,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 35px 40px;
+            max-width: 380px; width: 85%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+            border: 1px solid rgba(255,255,255,0.3);
             position: relative;
-            z-index: 12;
+            font-family: 'Ma Shan Zheng', 'KaiTi', cursive;
+            color: #1a1a1a; text-align: center;
+        }
+        .modal-box .close-btn {
+            position: absolute; top: 10px; right: 14px;
+            font-size: 1.3em; cursor: pointer; color: #888;
+            transition: color 0.3s;
+        }
+        .modal-box .close-btn:hover { color: #333; }
+        .modal-box h3 {
+            font-size: 1.4em; margin-bottom: 15px;
+            color: #1a1a1a; letter-spacing: 3px;
+        }
+        .modal-box ul { list-style: none; padding: 0; }
+        .modal-box ul li {
+            font-size: 1.1em; padding: 6px 0;
+            line-height: 1.8; letter-spacing: 1px;
+        }
+        .modal-box ul li::before {
+            content: '\2726 '; color: #f06292;
+        }
+        .modal-box p {
+            font-size: 1.05em; line-height: 2;
+            letter-spacing: 1px; text-align: left;
+            padding: 0 4px;
         }
 
+        #intro-white {
+            position: fixed; inset: 0; background: #fff;
+            z-index: 99999; pointer-events: none;
+            display: flex; align-items: center; justify-content: center;
+            animation: introEnd 8.5s ease-out forwards;
+        }
+        #intro-white .intro-text {
+            font-size: 7em;
+            font-family: 'Ma Shan Zheng', 'KaiTi', 'STKaiti', cursive;
+            color: #1a1a1a; display: flex; gap: 12px; letter-spacing: 6px;
+            position: relative; z-index: 2;
+        }
+        #intro-white .intro-text span { opacity: 0; animation: charAppear 0.6s ease-out forwards; }
+        .c01 { animation-delay: 0.4s !important; }
+        .c02 { animation-delay: 1.0s !important; }
+        .c03 { animation-delay: 1.6s !important; }
+        .c04 { animation-delay: 2.2s !important; }
+        .c05 { animation-delay: 2.8s !important; }
+        .c06 { animation-delay: 3.4s !important; }
+        .c07 { animation-delay: 4.0s !important; }
+        .c08 { animation-delay: 4.6s !important; }
+        @keyframes charAppear {
+            0%   { opacity: 0; transform: scale(0.5) translateY(25px); filter: blur(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        @keyframes introEnd {
+            0%, 92% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
+        }
+
+        .main-title {
+            font-size: 3em; color: rgba(220, 240, 225, 0.92);
+            text-shadow: 0 0 40px rgba(120, 190, 150, 0.25), 0 0 80px rgba(80, 160, 120, 0.1), 0 3px 6px rgba(0, 0, 0, 0.35);
+            text-align: center; margin-bottom: 12px; letter-spacing: 8px;
+            font-weight: 400; animation: titleFloat 5s ease-in-out infinite;
+            position: relative; z-index: 15; padding-top: 4vh;
+            background: none; border: none; padding: 12px 30px; display: inline-block;
+        }
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .main-subtitle {
+            font-size: 1.1em; color: rgba(190, 220, 200, 0.55);
+            text-shadow: 0 0 20px rgba(80, 160, 120, 0.15);
+            text-align: center; letter-spacing: 10px; margin-bottom: 28px;
+            position: relative; z-index: 15;
+            animation: titleFloat 6s ease-in-out infinite 0.8s;
+        }
+
+        .enter-btn {
+            display: inline-block; padding: 16px 56px;
+            background: rgba(120, 180, 150, 0.12);
+            border: 1.5px solid rgba(160, 210, 180, 0.2);
+            border-radius: 30px; color: rgba(210, 240, 220, 0.85);
+            font-size: 1.1em; font-family: inherit; cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 6px; position: relative; z-index: 15;
+            backdrop-filter: blur(6px); margin-top: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+        }
+        .enter-btn:hover {
+            background: rgba(120, 180, 150, 0.22);
+            border-color: rgba(160, 210, 180, 0.35);
+            box-shadow: 0 0 40px rgba(120, 190, 150, 0.15);
+            transform: scale(1.06);
+        }
+
+        .content-box {
+            background: rgba(18, 35, 28, 0.35);
+            border-radius: 14px; padding: 36px 42px;
+            max-width: 520px; width: 100%; text-align: center;
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(160, 210, 180, 0.08);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
+            margin: 18px 0; position: relative; z-index: 12;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+        }
+        .diary-title {
+            font-size: 1.6em; color: rgba(200, 235, 210, 0.9);
+            margin-bottom: 20px; letter-spacing: 4px; font-weight: 400;
+            text-shadow: 0 0 16px rgba(120, 190, 150, 0.12);
+        }
+        .diary-text {
+            font-size: 1.15em; color: rgba(195, 220, 205, 0.85);
+            line-height: 2.2;
+        }
+        .diary-text .highlight {
+            color: rgba(180, 230, 200, 1); font-weight: 400;
+            text-shadow: 0 0 12px rgba(140, 210, 170, 0.2);
+        }
+        .page-marker {
+            font-size: 0.85em; color: rgba(150, 210, 180, 0.3);
+            letter-spacing: 6px; margin-top: 20px; position: relative; z-index: 12;
+        }
+        .back-btn {
+            position: fixed; top: 24px; left: 24px;
+            background: rgba(15, 30, 22, 0.35);
+            border: 1px solid rgba(160, 210, 180, 0.12);
+            border-radius: 50%; width: 48px; height: 48px; font-size: 20px;
+            cursor: pointer; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(6px);
+        }
+        .back-btn:hover {
+            background: rgba(80, 160, 120, 0.3);
+            border-color: rgba(160, 210, 180, 0.3);
+            transform: scale(1.1); box-shadow: 0 6px 28px rgba(0, 0, 0, 0.3);
+        }
+        .end-home {
+            display: inline-block; margin-top: 22px; padding: 14px 44px;
+            background: rgba(120, 180, 150, 0.1);
+            border: 1.5px solid rgba(160, 210, 180, 0.15);
+            border-radius: 25px; color: rgba(200, 235, 210, 0.8);
+            font-size: 1em; font-family: inherit; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            letter-spacing: 4px; position: relative; z-index: 12;
+            backdrop-filter: blur(6px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        }
         .end-home:hover {
-            background: rgba(100, 160, 130, 0.2);
-            border-color: rgba(140, 200, 170, 0.35);
-            box-shadow: 0 0 20px rgba(100, 180, 140, 0.1);
+            background: rgba(120, 180, 150, 0.2);
+            border-color: rgba(160, 210, 180, 0.3);
+            box-shadow: 0 0 30px rgba(120, 190, 150, 0.12);
+            transform: scale(1.06);
         }
-
-        /* ===== 结束语 ===== */
         .end-text {
-            font-size: 0.9em;
-            color: rgba(160, 200, 180, 0.5);
-            margin-top: 8px;
-            letter-spacing: 2px;
+            font-size: 0.95em; color: rgba(170, 210, 190, 0.45);
+            margin-top: 12px; letter-spacing: 4px;
         }
 
-        @media (max-width: 500px) {
-            .main-title { font-size: 1.8em; letter-spacing: 4px; }
-            .content-box { padding: 20px 18px; }
-            .diary-title { font-size: 1.1em; }
-            .diary-text { font-size: 0.95em; }
-            .enter-btn { padding: 12px 32px; font-size: 0.95em; }
+        @media (max-width: 600px) {
+            .sidebar { width: 65px; gap: 20px; }
+            .sidebar .white-strip { width: 20px; }
+            .sidebar .line { left: 10px; top: 10%; bottom: 10%; }
+            .sidebar .s-item { font-size: 0.62em; padding: 5px 6px; border-radius: 15px; white-space: normal; word-break: break-all; line-height: 1.3; }
+            .sep-white { left: 65px; width: 10px; }
+            body { background-position: 75px center !important; background-size: cover !important; }
+            .main-title { font-size: 1.6em; letter-spacing: 3px; padding: 8px 12px; }
+            .main-subtitle { font-size: 0.85em; letter-spacing: 5px; }
+            .enter-btn { padding: 12px 28px; font-size: 0.9em; letter-spacing: 3px; }
+            .content-box { padding: 18px 14px; margin: 10px 0; max-width: 85%; }
+            .diary-title { font-size: 1.1em; letter-spacing: 2px; }
+            .diary-text { font-size: 0.9em; line-height: 1.8; }
+            .page-marker { font-size: 0.7em; }
+            .back-btn { width: 36px; height: 36px; font-size: 16px; top: 12px; left: 12px; }
+            .end-home { padding: 10px 24px; font-size: 0.85em; }
+            .modal-box { padding: 25px 20px; max-width: 90%; }
+            .modal-box h3 { font-size: 1.1em; }
+            .modal-box ul li { font-size: 0.95em; }
+            .modal-box p { font-size: 0.9em; }
+            #intro-white .intro-text { font-size: 3.5em; gap: 6px; letter-spacing: 3px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== 开场白屏逐字 ===== -->
+    <div id="intro-white">
+        <div class="intro-text">
+            <span class="c01">布</span><span class="c02">丁</span><span class="c03">和</span>
+            <span class="c04">姐</span><span class="c05">姐</span><span class="c06">的</span>
+            <span class="c07">日</span><span class="c08">常</span>
+        </div>
+    </div>
 
+    <!-- ===== 左侧栏 ===== -->
+    <div class="sidebar">
+        <div class="white-strip"><div class="line"></div></div>
+        <div class="s-item">我的爱好</div>
+        <div class="s-item">我的个人简介</div>
+        <div class="s-item">我喜欢什么</div>
+    </div>
+    <div class="sep-white"></div>
 
-    <!-- ===== 返回按钮 ===== -->
+    <!-- ===== 玻璃弹窗 ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">\u00d7</span>
+            <h3 id="modalTitle"></h3>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
     <button class="back-btn" id="backBtn" onclick="goToPage1()" style="display:none;">🏠</button>
 
-    <!-- ================================================================ -->
-    <!-- ===== 第1页：主页（文案 + 入口） ===== -->
-    <!-- ================================================================ -->
     <div class="page" id="page1">
         <div class="main-title">欢迎来到布丁的小世界</div>
         <div class="main-subtitle">✦ 欢迎来到我的小世界 ✦</div>
-        <button class="enter-btn" onclick="goToPage2()">踏 上 木 桥  ➔</button>
+        <button class="enter-btn" onclick="showPage(2)">踏 上 木 桥  ➔</button>
     </div>
 
-    <!-- ================================================================ -->
-    <!-- ===== 内容页由 JS 生成 ===== -->
-    <!-- ================================================================ -->
     <div id="pageContainer"></div>
 
     <script>
-        // ================================================================
-        //  🌿 日记数据 — 5 页 + 结束页
-        // ================================================================
-        const diaryData = [
-            // 第2页
-            {
-                title: '林间捉迷藏',
-                text: '今天和 <span class="highlight">姐姐</span> 在森林里玩捉迷藏 🌲<br>' +
-                      '我躲在大树后面，姐姐找了好久才找到我～<br>' +
-                      '我们笑啊笑，连小鸟都被我们 <span class="highlight">逗乐了</span> 🐦'
-            },
-            // 第3页
-            {
-                title: '姐姐的森林野餐',
-                text: '<span class="highlight">姐姐</span> 在小桥边铺了野餐垫 🧺<br>' +
-                      '有三明治、果汁，还有我最爱的 <span class="highlight">小布丁</span> 🍮<br>' +
-                      '阳光透过树叶洒下来，好 <span class="highlight">幸福</span> 呀～'
-            },
-            // 第4页
-            {
-                title: '一起采野花',
-                text: '我和 <span class="highlight">姐姐</span> 在树林里采了好多野花 🌼<br>' +
-                      '有白的、黄的、紫的，像 <span class="highlight">星星落在草地上</span> ✨<br>' +
-                      '姐姐帮我编了一个花环，我戴上 <span class="highlight">舍不得摘</span> ～'
-            },
-            // 第5页
-            {
-                title: '桥边看月亮',
-                text: '晚上 <span class="highlight">姐姐</span> 带我到小桥上看月亮 🌙<br>' +
-                      '月光照在河面上，<span class="highlight">闪闪发光</span> 像碎银子～<br>' +
-                      '姐姐给我讲嫦娥的故事，我 <span class="highlight">听完还不想睡</span> 🥰'
-            },
-            // 第6页
-            {
-                title: '雨中森林',
-                text: '今天下 <span class="highlight">雨</span> 了，森林里雾蒙蒙的 ☔<br>' +
-                      '我和姐姐撑着一把伞，走在 <span class="highlight">湿湿的木桥上</span> 🌂<br>' +
-                      '雨滴落在叶子上，发出 <span class="highlight">嘀嗒嘀嗒</span> 的声音，好好听～'
-            },
-            // 第7页（最后一页）
-            {
-                title: '🍃 姐姐和我的快乐日常结束啦，拜拜 🍃',
-                text: '谢谢 <span class="highlight">姐姐</span> 陪我走过的每一座桥、每一片森林 💚<br>' +
-                      '和你在一起的每一天，就像 <span class="highlight">林间的微风</span> 一样温柔～<br>' +
-                      '<span class="highlight">永远爱姐姐！</span> 🌟',
-                isEnd: true
-            }
+        var diaryData = [
+            { title: '林间捉迷藏', text: '今天和 <span class="highlight">姐姐</span> 在森林里玩捉迷藏 🌲<br>我躲在大树后面，姐姐找了好久才找到我～<br>我们笑啊笑，连小鸟都被我们 <span class="highlight">逗乐了</span> 🐦' },
+            { title: '姐姐的森林野餐', text: '<span class="highlight">姐姐</span> 在小桥边铺了野餐垫 🧺<br>有三明治、果汁，还有我最爱的 <span class="highlight">小布丁</span> 🍮<br>阳光透过树叶洒下来，好 <span class="highlight">幸福</span> 呀～' },
+            { title: '一起采野花', text: '我和 <span class="highlight">姐姐</span> 在树林里采了好多野花 🌼<br>有白的、黄的、紫的，像 <span class="highlight">星星落在草地上</span> ✨<br>姐姐帮我编了一个花环，我戴上 <span class="highlight">舍不得摘</span> ～' },
+            { title: '桥边看月亮', text: '晚上 <span class="highlight">姐姐</span> 带我到小桥上看月亮 🌙<br>月光照在河面上，<span class="highlight">闪闪发光</span> 像碎银子～<br>姐姐给我讲嫦娥的故事，我 <span class="highlight">听完还不想睡</span> 🥰' },
+            { title: '雨中森林', text: '今天下 <span class="highlight">雨</span> 了，森林里雾蒙蒙的 ☔<br>我和姐姐撑着一把伞，走在 <span class="highlight">湿湿的木桥上</span> 🌂<br>雨滴落在叶子上，发出 <span class="highlight">嘀嗒嘀嗒</span> 的声音，好好听～' },
+            { title: '姐姐和我的快乐日常结束啦，拜拜', text: '谢谢 <span class="highlight">姐姐</span> 陪我走过的每一座桥、每一片森林 💚<br>和你在一起的每一天，就像 <span class="highlight">林间的微风</span> 一样温柔～<br><span class="highlight">永远爱姐姐！</span> 🌟', isEnd: true }
         ];
 
-        // ================================================================
-        //  🏗️ 生成页面（第2～7页）
-        // ================================================================
         function generatePages() {
-            const container = document.getElementById('pageContainer');
+            var container = document.getElementById('pageContainer');
             diaryData.forEach(function(page, idx) {
-                const pageNum = idx + 2;
-                const div = document.createElement('div');
+                var pageNum = idx + 2;
+                var div = document.createElement('div');
                 div.className = 'page hidden';
                 div.id = 'page' + pageNum;
-
-                let extraHtml = '';
-                if (page.isEnd) {
-                    extraHtml =
-                        '<button class="end-home" onclick="showPage(1)">✦ 回到木桥 ✦</button>' +
-                        '<div class="end-text">— 期待下一次冒险 —</div>';
-                } else {
-                    extraHtml = '<div class="page-marker">✦ ' + pageNum + ' / 7 ✦</div>';
-                }
-
-                div.innerHTML =
-                    '<div class="content-box">' +
-                        '<div class="diary-title">' + page.title + '</div>' +
-                        '<div class="diary-text">' + page.text + '</div>' +
-                    '</div>' +
-                    '<div class="content-box">' +
-                        extraHtml +
-                    '</div>';
-
+                var extra = page.isEnd
+                    ? '<button class="end-home" onclick="showPage(1)">回到首页</button><div class="end-text">期待下一次冒险</div>'
+                    : '<div class="page-marker">' + pageNum + ' / 7</div>';
+                div.innerHTML = '<div class="content-box"><div class="diary-title">' + page.title + '</div><div class="diary-text">' + page.text + '</div></div><div class="content-box">' + extra + '</div>';
                 container.appendChild(div);
             });
         }
 
-        // ================================================================
-        //  🧭 页面导航 + 自动翻页
-        // ================================================================
-        let autoTimer = null;
-
-        function stopAutoAdvance() {
-            if (autoTimer) {
-                clearInterval(autoTimer);
-                autoTimer = null;
-            }
-        }
-
-        function startAutoAdvance(currentPage) {
+        var autoTimer = null;
+        function stopAutoAdvance() { if (autoTimer) { clearInterval(autoTimer); autoTimer = null; } }
+        function startAutoAdvance(n) {
             stopAutoAdvance();
-            if (currentPage >= 7) return;
-            autoTimer = setInterval(function() {
-                const next = currentPage + 1;
-                if (next <= 7) {
-                    showPage(next);
-                } else {
-                    stopAutoAdvance();
-                }
-            }, 5000);
+            if (n >= 7) return;
+            autoTimer = setInterval(function() { if (n + 1 <= 7) showPage(n + 1); else stopAutoAdvance(); }, 5000);
         }
 
         function showPage(num) {
-            document.querySelectorAll('.page').forEach(function(p) {
-                p.classList.add('hidden');
-            });
-            const target = document.getElementById('page' + num);
+            document.querySelectorAll('.page').forEach(function(p) { p.classList.add('hidden'); });
+            var target = document.getElementById('page' + num);
             if (target) target.classList.remove('hidden');
             document.getElementById('backBtn').style.display = num === 1 ? 'none' : 'block';
 
-            // 切换背景：第1页用壁纸，第2页用捉迷藏图，其余用 hide-and-seek
-            if (num === 1) {
-                document.body.style.backgroundImage = "url('img2.jpg')";
-            } else if (num === 2) {
-                document.body.style.backgroundImage = "url('捉迷藏.jpg')";
-            } else if (num === 3) {
-                document.body.style.backgroundImage = "url('野餐.jpg')";
-            } else if (num === 4) {
-                document.body.style.backgroundImage = "url('采野花，做花环.jpg')";
-            } else if (num === 5) {
-                document.body.style.backgroundImage = "url('桥下讲故事.jpg')";
-            } else if (num === 6) {
-                document.body.style.backgroundImage = "url('下雨了.jpg')";
-            } else {
-                document.body.style.backgroundImage = "url('hide-and-seek.svg')";
-            }
+            if (num === 1) { document.body.style.backgroundImage = "url('img2.jpg')"; document.body.className = 'bg-page1'; }
+            else if (num === 2) { document.body.style.backgroundImage = "url('捉迷藏.jpg')"; document.body.className = 'bg-other'; }
+            else if (num === 3) { document.body.style.backgroundImage = "url('野餐.jpg')"; document.body.className = 'bg-other'; }
+            else if (num === 4) { document.body.style.backgroundImage = "url('采野花，做花环.jpg')"; document.body.className = 'bg-other'; }
+            else if (num === 5) { document.body.style.backgroundImage = "url('桥下讲故事.jpg')"; document.body.className = 'bg-other'; }
+            else if (num === 6) { document.body.style.backgroundImage = "url('下雨了.jpg')"; document.body.className = 'bg-other'; }
+            else if (num === 7) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.className = 'bg-other'; }
+            else { document.body.style.backgroundImage = "url('hide-and-seek.svg')"; document.body.className = 'bg-other'; }
 
+            showCreaturesForPage(num);
             stopAutoAdvance();
-            if (num >= 2 && num < 7) {
-                startAutoAdvance(num);
-            }
+            if (num >= 2 && num < 7) startAutoAdvance(num);
         }
 
         function goToPage2() { showPage(2); }
         function goToPage1() { showPage(1); }
 
-        // ================================================================
-        //  🚀 启动
-        // ================================================================
+        var pageCreatures = [
+            { butterflies: 2, birds: 2, wisps: 6, motes: 0, falling: 0 },
+            { butterflies: 3, birds: 1, wisps: 2, motes: 2, falling: 0 },
+            { butterflies: 3, birds: 2, wisps: 0, motes: 3, falling: 0 },
+            { butterflies: 5, birds: 1, wisps: 0, motes: 2, falling: 0 },
+            { butterflies: 2, birds: 0, wisps: 0, motes: 6, falling: 0 },
+            { butterflies: 2, birds: 0, wisps: 0, motes: 0, falling: 0 },
+            { butterflies: 3, birds: 1, wisps: 0, motes: 4, falling: 60 }
+        ];
+
+        function createSceneLife() {
+            var colors = ['#f0c0d0','#c0e8a0','#a0d8f0','#f0e0a0','#d0b0f0'];
+            for (var p = 1; p <= 7; p++) {
+                var c = pageCreatures[p - 1];
+                for (var i = 0; i < c.butterflies; i++) {
+                    var el = document.createElement('div');
+                    el.className = 'scene-creature butterfly hidden-creature';
+                    el.dataset.page = p;
+                    el.style.left = (5 + Math.random() * 80) + '%'; el.style.top = (10 + Math.random() * 50) + '%';
+                    el.style.animationDelay = (Math.random() * 12) + 's'; el.style.animationDuration = (10 + Math.random() * 6) + 's';
+                    el.style.background = 'linear-gradient(135deg,' + colors[i % colors.length] + ',' + colors[i % colors.length] + '88)';
+                    el.style.boxShadow = '0 0 6px ' + colors[i % colors.length];
+                    document.body.appendChild(el);
+                }
+                for (var i = 0; i < c.birds; i++) {
+                    var el = document.createElement('div');
+                    el.className = 'scene-creature bird hidden-creature';
+                    el.dataset.page = p;
+                    el.style.left = (2 + Math.random() * 15) + '%'; el.style.top = (5 + Math.random() * 25) + '%';
+                    el.style.animationDelay = (Math.random() * 14) + 's'; el.style.animationDuration = (12 + Math.random() * 6) + 's';
+                    el.style.background = 'rgba(40,40,40,' + (0.25 + Math.random() * 0.2) + ')';
+                    el.style.clipPath = 'polygon(0% 50%, 30% 20%, 50% 50%, 70% 20%, 100% 50%, 70% 60%, 50% 40%, 30% 60%)';
+                    document.body.appendChild(el);
+                }
+                for (var i = 0; i < c.wisps; i++) {
+                    var el = document.createElement('div');
+                    el.className = 'scene-creature wisp hidden-creature';
+                    el.dataset.page = p;
+                    el.style.left = (10 + Math.random() * 70) + '%'; el.style.top = (55 + Math.random() * 30) + '%';
+                    el.style.animationDelay = (Math.random() * 18) + 's'; el.style.animationDuration = (14 + Math.random() * 10) + 's';
+                    var sz = 20 + Math.random() * 24; el.style.width = sz + 'px'; el.style.height = (sz * 0.5) + 'px';
+                    el.style.background = 'rgba(220,230,220,' + (0.12 + Math.random() * 0.15) + ')';
+                    document.body.appendChild(el);
+                }
+                for (var i = 0; i < c.motes; i++) {
+                    var el = document.createElement('div');
+                    el.className = 'scene-creature mote hidden-creature';
+                    el.dataset.page = p;
+                    el.style.left = (10 + Math.random() * 80) + '%'; el.style.top = (15 + Math.random() * 55) + '%';
+                    el.style.animationDelay = (Math.random() * 10) + 's'; el.style.animationDuration = (8 + Math.random() * 6) + 's';
+                    el.style.color = colors[i % colors.length]; el.style.background = colors[i % colors.length];
+                    document.body.appendChild(el);
+                }
+                for (var i = 0; i < c.falling; i++) {
+                    var el = document.createElement('div');
+                    el.className = 'scene-creature falling hidden-creature';
+                    el.dataset.page = p;
+                    el.style.left = (2 + Math.random() * 96) + '%'; el.style.top = '-10px';
+                    el.style.animationDelay = (Math.random() * 6) + 's'; el.style.animationDuration = (4 + Math.random() * 4) + 's';
+                    var sz = 5 + Math.random() * 6; el.style.width = sz + 'px'; el.style.height = sz + 'px';
+                    document.body.appendChild(el);
+                }
+            }
+        }
+
+        function showCreaturesForPage(num) {
+            document.querySelectorAll('.scene-creature').forEach(function(el) { el.classList.add('hidden-creature'); });
+            document.querySelectorAll('.scene-creature[data-page="' + num + '"]').forEach(function(el) { el.classList.remove('hidden-creature'); });
+        }
+
+        createSceneLife();
         generatePages();
+        showCreaturesForPage(1);
+
+        // ===== 弹窗 =====
+        function openModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalBody').innerHTML = content;
+            document.getElementById('modalOverlay').classList.add('show');
+        }
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('show');
+        }
+        document.getElementById('modalOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.querySelectorAll('.sidebar .s-item').forEach(function(el, idx) {
+            el.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var items = [
+                    { t: '✦ 我的爱好 ✦', b: '<ul><li>爱跳舞</li><li>爱画画</li><li>爱看书</li><li>爱练书法</li></ul>' },
+                    { t: '✦ 我的个人简介 ✦', b: '<p>我是一个活泼的小女生，在佛山市高明区一中附属小学读书。<br><br>我跳舞拿过很多奖，奖杯两个，证书八本。<br><br>我既活泼好动，又喜欢写文艺小文章，爱生活、爱笑、爱跳舞，也爱静静地写字画画。</p>' },
+                    { t: '✦ 我喜欢什么 ✦', b: '<p>我喜欢那些可爱毛茸茸的小动物，尤其是小兔子、小猫和小狗，软软的、暖暖的，看到就想抱一抱！</p>' }
+                ];
+                openModal(items[idx].t, items[idx].b);
+            });
+        });
+
+        document.addEventListener('click', function(e) {
+            for (var i = 0; i < 12; i++) {
+                var dot = document.createElement('div');
+                dot.className = 'burst-dot';
+                var angle = Math.random() * 2 * Math.PI;
+                var dist = 60 + Math.random() * 180;
+                dot.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+                dot.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+                dot.style.left = (e.clientX - 4) + 'px'; dot.style.top = (e.clientY - 4) + 'px';
+                dot.style.animationDelay = (Math.random() * 0.4) + 's';
+                var sz = 5 + Math.random() * 5; dot.style.width = sz + 'px'; dot.style.height = sz + 'px';
+                document.body.appendChild(dot);
+                setTimeout(function() { dot.remove(); }, 5400);
+            }
+        });
+
+        var trailTimer = 0;
+        document.addEventListener('mousemove', function(e) {
+            var now = Date.now();
+            if (now - trailTimer < 40) return;
+            trailTimer = now;
+            for (var i = 0; i < 2; i++) {
+                var dot = document.createElement('div');
+                dot.className = 'trail-dot';
+                var angle = -Math.PI/4 + (Math.random() - 0.5) * Math.PI * 0.8;
+                var dist = 40 + Math.random() * 100;
+                dot.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+                dot.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+                dot.style.left = (e.clientX - 8) + 'px'; dot.style.top = (e.clientY - 8) + 'px';
+                dot.style.animationDelay = (Math.random() * 0.2) + 's';
+                document.body.appendChild(dot);
+                setTimeout(function() { dot.remove(); }, 3200);
+            }
+        });
     </script>
 
 </body>
