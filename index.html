@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>布丁的小世界</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&text=啊爱八把爸白拜帮抱杯被本比壁边编憋布不才采餐藏草常嫦撑成吃出除次错嗒打大戴带待弹到的得滴嘀地典垫电丁动都逗读多躲娥额发法返方分风福佛附复钢高个给更宫公恭功狗故关馆光逛果过还好和河很后花画欢环幻黄回会活机既家加间简键讲奖教结姐界介今进经静径久就看可控口快啦来了乐里利连练两亮林路落妈猫毛冒么每美们蒙迷面妙灭明末木拿那你鸟暖女盘陪片泼铺期奇其起气墙桥琴区去让人日茸柔入软洒赛三伞森山闪上蛇舍什声生胜湿食时世事是市首书属树束谁水睡四速随碎所踏贪天条跳听通透兔蛙外玩完晚微温文我舞雾物喜戏下险想像向消小笑些写谢星幸学呀阳样野也叶页一移已艺音银迎影永泳游尤有又鱼雨园远月杂在再造摘章找照着证汁治制中周主捉子紫字综走奏最座做·—、。！，～&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
-            background: url('img2.jpg') center/cover no-repeat fixed;
-            font-family: 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'KaiTi', 'STKaiti', cursive, sans-serif;
+            background: #2d3a3a url('img2.jpg') center/cover no-repeat fixed;
+            font-family: 'Ma Shan Zheng', 'ZCOOL KuaiLe', 'KaiTi', 'STKaiti', 'PingFang SC', 'Microsoft YaHei', cursive, sans-serif;
             overflow-x: hidden;
             position: relative;
             color: rgba(210, 230, 215, 0.92);
@@ -35,7 +35,7 @@
             padding: 6px 18px; background: #fff;
             border: 2px solid #1a1a1a; border-radius: 25px;
             color: #1a1a1a; font-size: 0.85em;
-            font-family: 'Ma Shan Zheng', 'KaiTi', cursive;
+            font-family: 'Ma Shan Zheng', 'KaiTi', 'PingFang SC', cursive;
             cursor: pointer; transition: all 0.3s;
             white-space: nowrap;
         }
@@ -151,7 +151,7 @@
             max-width: 380px; width: 85%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.12);
             border: 1px solid rgba(255,255,255,0.3);
-            font-family: 'Ma Shan Zheng', 'KaiTi', cursive;
+            font-family: 'Ma Shan Zheng', 'KaiTi', 'PingFang SC', cursive;
             color: #1a1a1a; text-align: center;
         }
         .modal-box .close-btn {
@@ -169,10 +169,11 @@
             z-index: 99999; pointer-events: none;
             display: flex; align-items: center; justify-content: center;
             animation: introBlur 11s ease-in-out forwards;
+            overflow: hidden;
         }
         #intro-white .intro-text {
             font-size: 7em;
-            font-family: 'Ma Shan Zheng', 'KaiTi', 'STKaiti', cursive;
+            font-family: 'Ma Shan Zheng', 'KaiTi', 'STKaiti', 'PingFang SC', cursive;
             color: #1a1a1a; display: flex; gap: 12px; letter-spacing: 6px;
             position: relative;
         }
@@ -192,6 +193,10 @@
         @keyframes introBlur {
             0%, 52% { -webkit-filter:blur(0); filter:blur(0); opacity:1; }
             100% { -webkit-filter:blur(10px); filter:blur(10px); opacity:0; visibility:hidden; }
+        }
+        @keyframes pinkDotMove {
+            0% { transform: translateX(-40px); }
+            100% { transform: translateX(calc(100vw + 40px)); }
         }
         .main-title {
             font-size: 3em; color: rgba(220,240,225,0.92);
@@ -344,7 +349,7 @@
             .modal-box h3 { font-size:1.1em; }
             .modal-box ul li { font-size:0.95em; }
             .modal-box p { font-size:0.9em; }
-            #intro-white .intro-text { font-size:2.2em; gap:4px; letter-spacing:2px; flex-wrap:wrap; }
+            #intro-white .intro-text { font-size:2.2em; gap:4px; letter-spacing:2px; flex-wrap:wrap; justify-content:center; }
             .game-page { gap:18px; padding:20px 12px; }
             .game-title { font-size:1.6em; letter-spacing:3px; }
             .game-card { padding:16px 18px; gap:14px; }
@@ -526,6 +531,12 @@
             .snake-mobile-controls { display:block; }
             .snake-instructions { font-size:0.7em; padding:8px 16px; }
         }
+        @media (max-width: 375px) {
+            #intro-white .intro-text { font-size:1.6em; gap:3px; letter-spacing:1px; }
+            .main-title { font-size:1.3em; letter-spacing:2px; padding:6px 8px; }
+            .main-subtitle { font-size:0.7em; letter-spacing:3px; }
+            .top-item { font-size:0.6em; padding:3px 8px; }
+        }
     </style>
 </head>
 <body>
@@ -537,6 +548,26 @@
             <span class="c07">日</span><span class="c08">常</span>
         </div>
     </div>
+    <script>
+        (function(){
+            var w = document.getElementById('intro-white');
+            if (!w) return;
+            for (var i = 0; i < 60; i++) {
+                var d = document.createElement('div');
+                var size = 2 + Math.random() * 6;
+                var hue = 330 + Math.random() * 30;
+                var sat = 60 + Math.random() * 30;
+                var lig = 65 + Math.random() * 25;
+                d.style.cssText = 'position:fixed;left:-40px;top:'+(Math.random()*100)+'%;'+
+                    'width:'+size+'px;height:'+size+'px;border-radius:50%;'+
+                    'background:hsl('+hue+','+sat+'%,'+lig+'%);'+
+                    'opacity:'+(0.3+Math.random()*0.5)+';'+
+                    'animation:pinkDotMove '+(4+Math.random()*6)+'s linear '+(Math.random()*4)+'s infinite;'+
+                    'pointer-events:none;z-index:1;';
+                w.appendChild(d);
+            }
+        })();
+    </script>
 
     <div class="top-bar">
         <div class="top-item">我的爱好</div>
@@ -703,18 +734,19 @@
 
             if (num === 1) {
                 document.body.style.backgroundImage = "url('img2.jpg')";
+                document.body.style.backgroundColor = "#2d3a3a";
                 document.body.className = 'bg-page1';
             }
-            else if (num === 2) { document.body.style.backgroundImage = "url('捉迷藏.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 3) { document.body.style.backgroundImage = "url('野餐.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 4) { document.body.style.backgroundImage = "url('采野花，做花环.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 5) { document.body.style.backgroundImage = "url('桥下讲故事.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 6) { document.body.style.backgroundImage = "url('下雨了.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 7) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 8) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 9) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 10) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.className = 'bg-other'; }
-            else if (num === 11) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.className = 'bg-other'; }
+            else if (num === 2) { document.body.style.backgroundImage = "url('捉迷藏.jpg')"; document.body.style.backgroundColor = "#3a2d2d"; document.body.className = 'bg-other'; }
+            else if (num === 3) { document.body.style.backgroundImage = "url('野餐.jpg')"; document.body.style.backgroundColor = "#2d3a2d"; document.body.className = 'bg-other'; }
+            else if (num === 4) { document.body.style.backgroundImage = "url('采野花，做花环.jpg')"; document.body.style.backgroundColor = "#2d2d3a"; document.body.className = 'bg-other'; }
+            else if (num === 5) { document.body.style.backgroundImage = "url('桥下讲故事.jpg')"; document.body.style.backgroundColor = "#2d353a"; document.body.className = 'bg-other'; }
+            else if (num === 6) { document.body.style.backgroundImage = "url('下雨了.jpg')"; document.body.style.backgroundColor = "#2a2d35"; document.body.className = 'bg-other'; }
+            else if (num === 7) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.style.backgroundColor = "#2d3a30"; document.body.className = 'bg-other'; }
+            else if (num === 8) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.style.backgroundColor = "#2d3a30"; document.body.className = 'bg-other'; }
+            else if (num === 9) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.style.backgroundColor = "#2d3a30"; document.body.className = 'bg-other'; }
+            else if (num === 10) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.style.backgroundColor = "#2d3a30"; document.body.className = 'bg-other'; }
+            else if (num === 11) { document.body.style.backgroundImage = "url('快乐.jpg')"; document.body.style.backgroundColor = "#2d3a30"; document.body.className = 'bg-other'; }
 
             showCreaturesForPage(num);
             stopAutoAdvance();
@@ -916,7 +948,6 @@
         /* ===== Maze Game ===== */
         var MAZE_ROWS = 13, MAZE_COLS = 13;
         var mazeGrid = [], mazePlayerR = 1, mazePlayerC = 1;
-        var mazeTouchStart = null;
 
         function generateMaze(rows, cols) {
             var h = rows * 2 + 1, w = cols * 2 + 1;
@@ -1050,26 +1081,36 @@
                     case 'ArrowRight': e.preventDefault(); movePlayer(0, 1); break;
                 }
             });
-            // Touch swipe
+            // Touch swipe — 手指滑动实时响应
             var mazeWrap = document.querySelector('.maze-wrap');
             if (mazeWrap) {
+                var mazeTouchStart = null;
+                var mazeTouchMoved = false;
                 mazeWrap.addEventListener('touchstart', function(e) {
                     var t = e.touches[0];
-                    if (t) mazeTouchStart = { x: t.clientX, y: t.clientY };
+                    if (t) {
+                        mazeTouchStart = { x: t.clientX, y: t.clientY };
+                        mazeTouchMoved = false;
+                    }
                 }, { passive: true });
-                mazeWrap.addEventListener('touchend', function(e) {
+                mazeWrap.addEventListener('touchmove', function(e) {
                     if (!mazeTouchStart) return;
-                    var t = e.changedTouches[0];
+                    var t = e.touches[0];
                     if (!t) return;
                     var dx = t.clientX - mazeTouchStart.x;
                     var dy = t.clientY - mazeTouchStart.y;
                     var absDx = Math.abs(dx), absDy = Math.abs(dy);
-                    if (Math.max(absDx, absDy) < 15) { mazeTouchStart = null; return; }
+                    if (Math.max(absDx, absDy) < 12) return;
+                    mazeTouchMoved = true;
                     if (absDx > absDy) {
                         movePlayer(0, dx > 0 ? 1 : -1);
                     } else {
                         movePlayer(dy > 0 ? 1 : -1, 0);
                     }
+                    // 重置起点，支持连续滑动
+                    mazeTouchStart = { x: t.clientX, y: t.clientY };
+                }, { passive: true });
+                mazeWrap.addEventListener('touchend', function(e) {
                     mazeTouchStart = null;
                 }, { passive: true });
             }
